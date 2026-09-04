@@ -2,7 +2,11 @@ import { useEffect } from "react";
 
 // The marketing site's "Demo" / "Start Your SkillDNA" routes here (/dashboard).
 // Send users into the REAL SkillDNA app to create their own SkillID.
-const SKILLDNA_APP = "https://skilldna-app.ambitioushill-149b28d6.centralus.azurecontainerapps.io";
+// ⚠ Must be the custom domain, NOT the raw *.azurecontainerapps.io hostname. The app builds its
+// OAuth return_to from location.origin, and the shared login broker only honours allow-listed
+// origins — the raw Azure host is not one, so signing in from it silently dumped the user on
+// geniemadeit.com/app instead of coming back here. Same app, both hostnames.
+const SKILLDNA_APP = "https://app.skilldna.cyberhopeai.com";
 
 export default function Dashboard() {
   useEffect(() => {
