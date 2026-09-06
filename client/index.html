@@ -21,10 +21,14 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+    <!-- Umami analytics was wired to VITE_ANALYTICS_ENDPOINT / VITE_ANALYTICS_WEBSITE_ID,
+         which nothing ever defined: no .env, no umami server on the fleet, no credentials.
+         Vite leaves an undefined percent-wrapped var as the literal string, so every page load requested
+         "/VITE_ANALYTICS_ENDPOINT/umami", got a 400, and the browser refused the script.
+         Analytics therefore never recorded a single page view here, while adding a failed
+         request to every visit. Removed rather than left broken. To bring it back: stand up
+         Umami, set both vars at BUILD time (Vite substitutes percent-wrapped vars in index.html only from
+         build-time env), and restore the tag. GA4 and Microsoft Clarity are unaffected. -->
   </body>
 
 </html>
